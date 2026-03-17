@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação do Equipamento</title>
+</head>
+<body>
+    <h2>{{ equipamento.nome }}</h2>
+    <p>{{ equipamento.descricao}}</p>
+    <hr>
+    <h3>Documentos</h3>
+    <ul>
+        {% for doc in documentos %}
+        <li>
+            <a href="/static/uploads/{{ doc.arquivo }}" target="_blank">{{ doc.nome }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

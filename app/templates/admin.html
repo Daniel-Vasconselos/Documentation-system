@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina Admin</title>
+</head>
+<body>
+    <h2>Painel administrador</h2>
+    <a href="/logout">Sair</a>
+    <hr>
+
+    <h3>Cadastrar Empresa</h3>
+    <form method="post">
+        <input type="hidden" name="tipo_form" value="nova_empresa">
+        <label>Nome da Empresa</label>
+        <input type="text" name="nome_empresa">
+        <br><br>
+
+        <button type="submit">
+        Cadastrar Empresa
+        </button>
+    </form>
+    <hr>
+
+
+    <h3>Equipamentos Cadastrados</h3>
+
+    <form method="Get" action="/admin">
+        <label>Filtrar por empresa:</label>
+        <select name="empresa_id" onchange="this.form.submit()">
+            <option value="">Todas empresas</option>
+            
+            {% for empresa in empresas %}
+                <option value="{{ empresa.id }}"
+                {% if request.args.get("empresa_id") == empresa.id|string %}
+                    selected
+                {% endif %}
+            >
+                    {{ empresa.nome }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+    <br>
+    
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>Nome</th>
+                <th>Codigo</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipamento in equipamentos %}
+                <tr>
+                    <td>{{ equipamento.empresa.nome }}</td>
+                    <td>{{ equipamento.nome }}</td>
+                    <td>{{ equipamento.codigo }}</td>
+                    <td>{{ equipamento.descricao }}</td>
+                    <td>
+                        <a href="/admin/editar/{{equipamento.id}}">Editar</a> |
+                        <a href="/admin/deletar/{{equipamento.id}}">Excluir</a> |
+                        <a href="/qrcode/equipamento/{{ equipamento.id }}" target="_blank">QR Code</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    
+    <h3>Cadastrar Equipamento</h3>
+    <form method="post">
+        <input type="hidden" name="tipo_form" value="novo_equipamento">
+        <label>Nome Equipamento</label>
+        <input type="text" name="nome">
+        <br><br>
+
+        <label>Descrição Equipamento</label>
+        <input type="text" name="descricao">
+        <br><br>
+        
+        <label>Empresa</label>
+
+        <select name="empresa_id">
+            {% for empresa in empresas %}
+                <option value="{{ empresa.id }}">{{ empresa.nome }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label>Codigo Equipamento</label>
+        <input type="text" name="codigo">
+        <br><br>
+        <button type="submit">Cadastrar Equipamento</button>
+    </form>
+
+</body>
+</html>

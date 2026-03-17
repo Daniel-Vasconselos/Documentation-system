@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos do Equipamento</title>
+</head>
+<body>
+    <h3>{{ equipamento.nome }}</h3>
+    <a href="/admin">Voltar</a>
+    <hr>
+    <h3>Upload de documento</h3>
+
+    <form method="post" enctype="multipart/form-data">
+        <label>Nome do documento</label>
+        <input type="text" name="nome">
+        <br><br>
+
+        <input type="file" name="arquivo">
+        <br><br>
+
+        <button type="submit">
+        Enviar Documento
+        </button>
+    </form>
+    <hr>
+
+    <h3>Documentos Cadastrados</h3>
+
+    {% for doc in documentos %}
+    <div style="border:1px solid #ccc; padding:10px; margin:10px">
+        <p><b>{{ doc.nome }}</b></p>
+        <a href="{{ url_for('static', filename='uploads/' + doc.arquivo) }}" target="_blank">Abrir documento</a>
+        <a href="/admin/documento/deletar/{{ doc.id }}">Excluir</a>
+    </div>
+    {% endfor %}
+</body>
+</html>
