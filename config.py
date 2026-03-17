@@ -1,4 +1,6 @@
+import os
+
 class Config:
-    SECRET_KEY = "chave_secreta"
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:@localhost/machine_docs"
+    SECRET_KEY = os.environ.get("SECRET_KEY", "chave_secreta")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False

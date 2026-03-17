@@ -1,7 +1,7 @@
 import os
 import shutil
 import qrcode
-from flask import Blueprint, render_template, request, redirect, session, send_file
+from flask import Blueprint, render_template, request, redirect, session, send_file, Request
 from io import BytesIO
 from app import db
 from app.models import Empresa, Usuario, Equipamento, Documento
@@ -162,7 +162,7 @@ def deletar_documentos(id):
 
 @main.route("/qrcode/equipamento/<int:id>")
 def gerar_qrcode(id):
-    url = f"http:localhost:5000/equipamento/{id}"
+    url = request.host_url + f"equipamento/{id}"
     qr = qrcode.make(url)
     img_io = BytesIO()
     qr.save(img_io, "PNG")
